@@ -1,0 +1,43 @@
+/* THEME: Rubber Hose — 1930s cartoon (Cuphead-leaning).
+   Signature: thick ink outlines + a hard offset shadow, no blur, and
+   tiles that rotate through a vintage colour set. Warm, characterful,
+   trustworthy. This is the default. */
+:root {
+  --bg: #eef1ec;
+  --card: #fbfdfa;
+  --card-hover: #f1f5ef;
+  --grid: rgba(36, 102, 98, 0.09);
+  --grid-major: rgba(36, 102, 98, 0.16);
+  --ink: #2a2018;
+  --ink-soft: #50635e;
+  --accent: #1f7d75;
+  --good: #4e8f5e;
+  --line: #2a2018;
+  --bw: 2.5px;
+  --radius: 9px;
+  --shadow: 4px 4px 0 #2a2018;
+  --maxw: 66rem;
+
+  --brand-transform: uppercase;
+  --brand-spacing: 0.06em;
+  --font-display: ui-rounded, "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Vintage colour-coding, now a blue-green family with ink icons */
+.tile:nth-child(4n + 1) .tile__art { --art-bg: #5fa394; --art-ink: #2a2018; } /* teal-green */
+.tile:nth-child(4n + 2) .tile__art { --art-bg: #8bae68; --art-ink: #2a2018; } /* sage      */
+.tile:nth-child(4n + 3) .tile__art { --art-bg: #6f9ec0; --art-ink: #2a2018; } /* sky blue  */
+.tile:nth-child(4n + 4) .tile__art { --art-bg: #5f7fae; --art-ink: #faf8f1; } /* indigo    */
+
+/* Blockquotes become a boxed "note" with the signature offset shadow —
+   a characterful, on-theme way to flag honest asides and trust notes. */
+.prose blockquote {
+  border: var(--bw) solid var(--line);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  font-style: normal;
+  color: var(--ink);
+}

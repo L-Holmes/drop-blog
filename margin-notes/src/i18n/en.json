@@ -1,0 +1,74 @@
+{
+  "site": {
+    "tagline": "Honest, unhurried writing for ordinary days."
+  },
+  "ui": {
+    "home": "Home",
+    "readMore": "Read",
+    "noPosts": "Nothing here yet. Something's on the way.",
+    "footer": "Made by people figuring it out right alongside you.",
+    "footerLegal": "General information shared in good faith — not professional, medical, legal or financial advice. © 2025 Margin Notes.",
+    "learnMore": "Learn more",
+    "why": "Why we're different",
+    "infoTitle": "About & legal",
+    "legal": { "about": "About", "privacy": "Privacy", "terms": "Terms", "disclaimer": "Disclaimer" },
+    "updated": "Updated",
+    "review": {
+      "verdict": "Our honest verdict",
+      "tested": "How we tested",
+      "cons": "Where it falls short",
+      "weaker": "Where others do it better",
+      "missed": "What we didn't test",
+      "pros": "What works well",
+      "scoresTitle": "How our testers rated each option",
+      "average": "Team average",
+      "references": "References"
+    }
+  },
+  "categories": {
+    "recipes": {
+      "name": "Recipes",
+      "description": "Forgiving food for ordinary days and the people you feed.",
+      "pitchTitle": "What makes our recipes different?",
+      "pitch": [
+        "Cooked in a real, busy kitchen before it reaches you",
+        "Short ingredient lists you'll actually have in",
+        "We tell you if it's worth the washing up"
+      ],
+      "pitchMore": "No sponsored ingredients and no fifty-step methods — just food that works on a Tuesday night."
+    },
+    "living": {
+      "name": "Home & Living",
+      "description": "Small ways to make the place you live feel a little kinder.",
+      "pitchTitle": "What makes our home tips different?",
+      "pitch": [
+        "Tried in small, rented and shared homes too",
+        "Cheap fixes first, before we ever say buy",
+        "Honest about what simply isn't worth your time"
+      ],
+      "pitchMore": "We only suggest things we've actually lived with, not products someone paid us to feature."
+    },
+    "wellbeing": {
+      "name": "Wellbeing",
+      "description": "Gentle, practical notes on rest, mood, and minding yourself.",
+      "pitchTitle": "What makes our wellbeing notes different?",
+      "pitch": [
+        "Written by people who've had the hard days too",
+        "Small steps, never a thirty-day overhaul",
+        "No miracle claims, ever"
+      ],
+      "pitchMore": "Realistic and kind — and never a substitute for proper support when you need it."
+    },
+    "money": {
+      "name": "Money",
+      "description": "Plain-English thoughts on spending, saving, and worrying less.",
+      "pitchTitle": "What makes our money notes different?",
+      "pitch": [
+        "Plain English, no jargon and no sales pitch",
+        "Written for real, uneven, real-life budgets",
+        "We say plainly when something isn't worth it"
+      ],
+      "pitchMore": "General guidance only — never commission-driven, and never a replacement for regulated advice."
+    }
+  }
+}

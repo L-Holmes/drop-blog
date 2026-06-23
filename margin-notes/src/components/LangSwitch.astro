@@ -1,0 +1,31 @@
+---
+import { LOCALES, LOCALE_META, type Locale } from '../consts';
+
+interface Props { locale: Locale; alt: Record<string, string>; }
+const { locale, alt } = Astro.props;
+
+const meta = (l: string) => LOCALE_META[l] ?? { label: l, flag: '🌐' };
+const cur = meta(locale);
+---
+<!-- Native <details> dropdown: zero JavaScript, scales to any number of
+     languages. Shows the current language; opens to the full list. -->
+<details class="lang">
+  <summary aria-label="Choose language">
+    <span class="lang__flag" aria-hidden="true">{cur.flag}</span>
+    <span class="lang__name">{cur.label}</span>
+    <span class="lang__chev" aria-hidden="true">▾</span>
+  </summary>
+  <ul class="lang__menu">
+    {LOCALES.map((l) => {
+      const m = meta(l);
+      return (
+        <li>
+          <a href={alt[l] ?? '#'} hreflang={l} aria-current={l === locale ? 'true' : undefined}>
+            <span class="lang__flag" aria-hidden="true">{m.flag}</span>
+            <span>{m.label}</span>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</details>

@@ -1,0 +1,55 @@
+---
+interface Props {
+  items: string[];
+  rows: { label: string; values: number[] }[];
+  max?: number;
+  averageLabel: string;
+  title: string;
+}
+const { items, rows, max = 5, averageLabel, title } = Astro.props;
+
+// Auto team-average row computed from the testers' scores.
+const avg = items.map((_, c) => {
+  const vals = rows.map((r) => r.values[c]).filter((v) => typeof v === 'number');
+  return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+});
+const allRows = [
+  ...rows.map((r) => ({ label: r.label, values: r.values, avg: false })),
+  { label: averageLabel, values: avg, avg: true },
+];
+
+// Per row: highest score = gold, next distinct score = silver.
+function medals(values: number[]): string[] {
+  const ranked = [...new Set(values)].sort((a, b) => b - a);
+  return values.map((v) => (v === ranked[0] ? 'gold' : v === ranked[1] ? 'silver' : ''));
+}
+---
+<figure class="scoretable">
+  <figcaption>{title}</figcaption>
+  <div class="scoretable__scroll">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          {items.map((i) => <th scope="col">{i}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {allRows.map((r) => {
+          const m = medals(r.values);
+          return (
+            <tr class={r.avg ? 'scoretable__avg' : undefined}>
+              <th scope="row">{r.label}</th>
+              {r.values.map((v, ci) => (
+                <td class={m[ci] ? `medal-${m[ci]}` : undefined}>
+                  {r.avg ? v.toFixed(1) : v}
+                  <span class="sr-only">{` / ${max}`}</span>
+                </td>
+              ))}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</figure>

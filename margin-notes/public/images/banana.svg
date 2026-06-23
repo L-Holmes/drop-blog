@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="A cartoon banana">
+  <rect width="800" height="450" fill="#5fa394"/>
+  <!-- vintage halftone dots -->
+  <g fill="#2a2018" opacity="0.16">
+    <circle cx="70" cy="70" r="6"/><circle cx="110" cy="100" r="5"/><circle cx="60" cy="120" r="4"/>
+    <circle cx="150" cy="70" r="4"/><circle cx="95" cy="55" r="4"/>
+    <circle cx="730" cy="380" r="6"/><circle cx="690" cy="350" r="5"/><circle cx="745" cy="335" r="4"/>
+    <circle cx="650" cy="385" r="4"/><circle cx="705" cy="400" r="4"/>
+  </g>
+  <!-- spotlight disc -->
+  <circle cx="400" cy="225" r="150" fill="#faf3df" stroke="#2a2018" stroke-width="6"/>
+  <!-- banana -->
+  <g stroke="#2a2018" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M300,200 C 330,330 470,362 540,252 C 470,300 360,292 300,200 Z" fill="#e9c34f"/>
+    <!-- stalk -->
+    <path d="M300,200 l -16,-26 l 18,-5 l 8,22 z" fill="#6f5a42"/>
+    <!-- tip -->
+    <path d="M540,252 l 24,8 l -8,18 l -20,-14 z" fill="#3a2c20"/>
+  </g>
+  <!-- ridge highlight -->
+  <path d="M338,236 C 400,258 462,262 504,244" fill="none" stroke="#f6e3a0" stroke-width="6" stroke-linecap="round"/>
+</svg>

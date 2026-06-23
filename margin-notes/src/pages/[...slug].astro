@@ -1,0 +1,271 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CategoryTile from '../components/CategoryTile.astro';
+import PostCard from '../components/PostCard.astro';
+import Verdict from '../components/Verdict.astro';
+import ScoreTable from '../components/ScoreTable.astro';
+import { SITE, CATEGORIES, LOCALES, type Locale } from '../consts';
+import { getPosts, getInfo } from '../lib/content';
+import { href, slugParam } from '../lib/paths';
+import { getUI } from '../i18n/ui';
+
+const INFO_ICON: Record<string, string> = {
+  about: 'info', privacy: 'shield', terms: 'scale', disclaimer: 'doc',
+};
+
+// One route generates every static page: home, category, post, the
+// "why we're different" pages, and the info/legal hub + pages — per locale.
+export const getStaticPaths = (async () => {
+  const posts = await getPosts();
+  const info = await getInfo();
+  const paths = [];
+
+  for (const locale of LOCALES) {
+    paths.push({ params: { slug: slugParam(locale) }, props: { kind: 'home', locale } });
+    paths.push({ params: { slug: slugParam(locale, 'info') }, props: { kind: 'info-hub', locale } });
+
+    for (const cat of CATEGORIES) {
+      paths.push({
+        params: { slug: slugParam(locale, cat.id) },
+        props: { kind: 'category', locale, category: cat.id },
+      });
+      paths.push({
+        params: { slug: slugParam(locale, cat.id, 'why') },
+        props: { kind: 'why', locale, category: cat.id },
+      });
+    }
+
+    for (const p of posts.filter((p) => p.locale === locale)) {
+      paths.push({
+        params: { slug: slugParam(locale, p.category, p.slug) },
+        props: { kind: 'post', locale, category: p.category, slug: p.slug, entry: p.entry },
+      });
+    }
+
+    for (const it of info.filter((i) => i.locale === locale)) {
+      paths.push({
+        params: { slug: slugParam(locale, 'info', it.slug) },
+        props: { kind: 'info-page', locale, infoSlug: it.slug, entry: it.entry },
+      });
+    }
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+type Props =
+  | { kind: 'home'; locale: Locale }
+  | { kind: 'category'; locale: Locale; category: string }
+  | { kind: 'why'; locale: Locale; category: string }
+  | { kind: 'post'; locale: Locale; category: string; slug: string; entry: CollectionEntry<'blog'> }
+  | { kind: 'info-hub'; locale: Locale }
+  | { kind: 'info-page'; locale: Locale; infoSlug: string; entry: CollectionEntry<'info'> };
+
+const props = Astro.props as Props;
+const { kind, locale } = props;
+const ui = getUI(locale);
+const all = await getPosts();
+const info = await getInfo();
+const catName = (id: string) => ui.categories[id]?.name ?? id;
+
+const alt: Record<string, string> = {};
+let crumbs: { label: string; href?: string }[] = [];
+let parent: { label: string; href: string } | undefined;
+let title = SITE.name;
+
+if (kind === 'home') {
+  for (const l of LOCALES) alt[l] = href(l);
+} else if (kind === 'category') {
+  title = catName(props.category);
+  crumbs = [{ label: ui.ui.home, href: href(locale) }, { label: title }];
+  parent = { label: ui.ui.home, href: href(locale) };
+  for (const l of LOCALES) alt[l] = href(l, props.category);
+} else if (kind === 'why') {
+  title = ui.categories[props.category]?.pitchTitle ?? ui.ui.why;
+  crumbs = [
+    { label: ui.ui.home, href: href(locale) },
+    { label: catName(props.category), href: href(locale, props.category) },
+  ];
+  parent = { label: catName(props.category), href: href(locale, props.category) };
+  for (const l of LOCALES) alt[l] = href(l, props.category, 'why');
+} else if (kind === 'info-hub') {
+  title = ui.ui.infoTitle;
+  crumbs = [{ label: ui.ui.home, href: href(locale) }, { label: title }];
+  parent = { label: ui.ui.home, href: href(locale) };
+  for (const l of LOCALES) alt[l] = href(l, 'info');
+} else if (kind === 'info-page') {
+  title = props.entry.data.title;
+  crumbs = [
+    { label: ui.ui.home, href: href(locale) },
+    { label: ui.ui.infoTitle, href: href(locale, 'info') },
+  ];
+  parent = { label: ui.ui.infoTitle, href: href(locale, 'info') };
+  for (const l of LOCALES) alt[l] = href(l, 'info', props.infoSlug);
+} else {
+  title = props.entry.data.title;
+  crumbs = [
+    { label: ui.ui.home, href: href(locale) },
+    { label: catName(props.category), href: href(locale, props.category) },
+  ];
+  parent = { label: catName(props.category), href: href(locale, props.category) };
+  for (const l of LOCALES) {
+    const exists = all.some((p) => p.locale === l && p.category === props.category && p.slug === props.slug);
+    alt[l] = exists ? href(l, props.category, props.slug) : href(l, props.category);
+  }
+}
+
+// View data.
+const tiles =
+  kind === 'home'
+    ? CATEGORIES.map((c) => ({
+        icon: c.icon,
+        name: catName(c.id),
+        desc: ui.categories[c.id]?.description ?? '',
+        href: href(locale, c.id),
+      }))
+    : [];
+
+const infoTiles =
+  kind === 'info-hub'
+    ? info
+        .filter((i) => i.locale === locale)
+        .map((i) => ({
+          icon: INFO_ICON[i.slug] ?? 'doc',
+          name: i.entry.data.title,
+          desc: i.entry.data.description,
+          href: href(locale, 'info', i.slug),
+        }))
+    : [];
+
+const list =
+  kind === 'category'
+    ? all
+        .filter((p) => p.locale === locale && p.category === props.category)
+        .sort((a, b) => +b.entry.data.date - +a.entry.data.date)
+        .map((p) => ({
+          title: p.entry.data.title,
+          desc: p.entry.data.description,
+          href: href(locale, p.category, p.slug),
+          emoji: p.entry.data.emoji,
+          image: p.entry.data.image,
+        }))
+    : [];
+
+// "What makes ours different?" content (category strip + the why page).
+const cat = kind === 'category' || kind === 'why' ? ui.categories[props.category] : undefined;
+const pitch = cat?.pitch ?? [];
+
+const Content =
+  kind === 'post' || kind === 'info-page' ? (await render(props.entry)).Content : null;
+const postEmoji = kind === 'post' ? props.entry.data.emoji : undefined;
+const postImage = kind === 'post' ? props.entry.data.image : undefined;
+
+// Post review / freshness data.
+const pd = kind === 'post' ? props.entry.data : undefined;
+const isReview = pd?.type === 'review';
+const updatedAt = pd ? (pd.updated ?? pd.date) : undefined;
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+<Base locale={locale} title={title} isHome={kind === 'home'} crumbs={crumbs} alt={alt} parent={parent}>
+  {kind === 'home' && (
+    <>
+      <p class="lead">{ui.site.tagline}</p>
+      <ul class="grid">
+        {tiles.map((t, i) => <CategoryTile icon={t.icon} name={t.name} desc={t.desc} href={t.href} index={i + 1} />)}
+      </ul>
+    </>
+  )}
+
+  {kind === 'category' && (
+    <>
+      <h1 class="sr-only">{title}</h1>
+
+      {pitch.length > 0 && (
+        <a class="pitch" href={href(locale, props.category, 'why')}>
+          <span class="pitch__label">{cat?.pitchTitle}</span>
+          <span class="pitch__point">{pitch[0]}</span>
+          <span class="pitch__more">{ui.ui.learnMore} →</span>
+        </a>
+      )}
+
+      {list.length === 0 ? (
+        <p class="muted">{ui.ui.noPosts}</p>
+      ) : (
+        <ul class="cards">
+          {list.map((p) => <PostCard title={p.title} desc={p.desc} href={p.href} readLabel={ui.ui.readMore} emoji={p.emoji} image={p.image} />)}
+        </ul>
+      )}
+    </>
+  )}
+
+  {kind === 'why' && (
+    <article class="prose">
+      <h1>{cat?.pitchTitle}</h1>
+      <ul>
+        {pitch.map((p) => <li>{p}</li>)}
+      </ul>
+      {cat?.pitchMore && <p>{cat.pitchMore}</p>}
+    </article>
+  )}
+
+  {kind === 'info-hub' && (
+    <>
+      <h1 class="sr-only">{ui.ui.infoTitle}</h1>
+      <ul class="grid grid--muted">
+        {infoTiles.map((t, i) => <CategoryTile icon={t.icon} name={t.name} desc={t.desc} href={t.href} index={i + 1} />)}
+      </ul>
+    </>
+  )}
+
+  {kind === 'info-page' && Content && (
+    <article class="prose">
+      <h1>{title}</h1>
+      <Content />
+    </article>
+  )}
+
+  {kind === 'post' && Content && (
+    <article class="prose">
+      {postImage && <img class="prose__hero" src={postImage} alt="" />}
+      <h1>{title}{postEmoji && <> <span class="title-emoji" aria-hidden="true">{postEmoji}</span></>}</h1>
+      {updatedAt && <p class="updated">{ui.ui.updated} {fmtDate(updatedAt)}</p>}
+
+      {isReview && pd && pd.rating !== undefined && (
+        <Verdict
+          rating={pd.rating}
+          tested={pd.tested}
+          pros={pd.pros}
+          cons={pd.cons}
+          weakerThan={pd.weakerThan}
+          missed={pd.missed}
+          labels={ui.ui.review}
+        />
+      )}
+
+      <Content />
+
+      {pd?.scores && (
+        <ScoreTable
+          items={pd.scores.items}
+          rows={pd.scores.rows}
+          max={pd.scores.max}
+          averageLabel={ui.ui.review.average}
+          title={ui.ui.review.scoresTitle}
+        />
+      )}
+
+      {pd?.sources && pd.sources.length > 0 && (
+        <section class="refs">
+          <h2>{ui.ui.review.references}</h2>
+          <ol>
+            {pd.sources.map((s) => (
+              <li><a href={s.url} rel="noopener nofollow" target="_blank">{s.title}</a></li>
+            ))}
+          </ol>
+        </section>
+      )}
+    </article>
+  )}
+</Base>

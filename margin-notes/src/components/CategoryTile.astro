@@ -1,0 +1,18 @@
+---
+import CategoryIcon from './CategoryIcon.astro';
+interface Props { icon: string; name: string; desc: string; href: string; index?: number; }
+const { icon, name, desc, href, index } = Astro.props;
+const idx = index != null ? String(index).padStart(2, '0') : null;
+---
+<li class="tile">
+  <a href={href}>
+    <span class="tile__art">
+      {idx && <span class="tile__idx" aria-hidden="true">{idx}</span>}
+      <CategoryIcon name={icon} />
+    </span>
+    <span class="tile__body">
+      <span class="tile__title">{name}</span>
+      <span class="tile__desc">{desc}</span>
+    </span>
+  </a>
+</li>

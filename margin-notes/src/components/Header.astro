@@ -1,0 +1,46 @@
+---
+import { SITE, type Locale } from '../consts';
+import { href } from '../lib/paths';
+import LangSwitch from './LangSwitch.astro';
+
+interface Props {
+  locale: Locale;
+  crumbs: { label: string; href?: string }[];
+  alt: Record<string, string>;
+}
+const { locale, crumbs, alt } = Astro.props;
+---
+<header class="head container">
+  <div class="head__row">
+    <a class="brand" href={href(locale)} aria-label={SITE.name}>
+      <img class="brand__logo" src="/images/logo.svg" alt={SITE.name} width="250" height="50" />
+    </a>
+
+    <div class="head__tools">
+      <!-- Text-size toggle: cycles small steps, remembered across pages -->
+      <button id="textsize" class="tsize" type="button" aria-label="Change text size" title="Change text size">
+        <span class="tsize__a tsize__a--sm">A</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 18 C 9 18, 14 16, 16 5" />
+          <path d="M16 5 l -4 1.6" />
+          <path d="M16 5 l 1.6 4" />
+        </svg>
+        <span class="tsize__a tsize__a--lg">A</span>
+      </button>
+
+      <LangSwitch locale={locale} alt={alt} />
+    </div>
+  </div>
+
+  {crumbs.length >= 2 && (
+    <nav class="crumbs" aria-label="Breadcrumb">
+      {crumbs.map((c, i) => (
+        <>
+          {i > 0 && <span class="crumbs__sep" aria-hidden="true">›</span>}
+          {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+        </>
+      ))}
+    </nav>
+  )}
+</header>

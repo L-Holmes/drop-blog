@@ -1,0 +1,25 @@
+/* THEME: Bloom — soft modern.
+   Rounded, pillowy cards with a gentle shadow, warm off-white, plum ink
+   and an ochre accent. Friendly and contemporary — warm without the
+   default pink. */
+:root {
+  --bg: #fbf4f0;
+  --card: #ffffff;
+  --card-hover: #fdf6f2;
+  --grid: rgba(120, 70, 95, 0.06);
+  --grid-major: rgba(120, 70, 95, 0.11);
+  --ink: #382536;
+  --ink-soft: #7c6878;
+  --accent: #d2814f;
+  --good: #4e8f5e;
+  --line: #ece0e2;
+  --bw: 1px;
+  --radius: 16px;
+  --shadow: 0 6px 22px rgba(56, 37, 54, 0.08);
+  --maxw: 64rem;
+
+  --brand-transform: none;
+  --brand-spacing: -0.01em;
+  --font-display: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-body: "Avenir Next", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}

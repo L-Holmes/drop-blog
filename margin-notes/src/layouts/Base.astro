@@ -1,0 +1,96 @@
+---
+import '../styles/global.css';
+
+// ── PICK YOUR THEME ───────────────────────────────────────────────────
+// Change this one line to: rubberhose | linen | bloom
+import '../styles/themes/rubberhose.css';
+
+import Header from '../components/Header.astro';
+import Back from '../components/Back.astro';
+import HomeFx from '../components/HomeFx.astro';
+import { SITE, type Locale } from '../consts';
+import { href } from '../lib/paths';
+import { getUI } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  isHome?: boolean;
+  crumbs?: { label: string; href?: string }[];
+  alt?: Record<string, string>;
+  parent?: { label: string; href: string };
+}
+const { locale, title, isHome = false, crumbs = [], alt = {}, parent } = Astro.props;
+const ui = getUI(locale);
+const pageTitle = isHome ? `${SITE.name} — ${ui.site.tagline}` : `${title} · ${SITE.name}`;
+const legal = ui.ui.legal;
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={ui.site.tagline} />
+    <!-- Text size is remembered ONLY in the URL (?text=N). No browser
+         storage of any kind is used anywhere on this site; see STORAGE.md.
+         Applies the scale before paint, then carries ?text onto internal
+         links so the choice follows the reader from page to page. -->
+    <script is:inline>
+      (function () {
+        var LV = [1, 1.2, 1.4];
+        function clamp(n) { n = parseInt(n, 10); if (isNaN(n)) n = 0; return ((n % LV.length) + LV.length) % LV.length; }
+        var idx = clamp(new URLSearchParams(location.search).get('text') || 0);
+        function apply() { document.documentElement.style.setProperty('--ts', LV[idx]); }
+        apply();
+        function syncLinks() {
+          var as = document.getElementsByTagName('a');
+          for (var i = 0; i < as.length; i++) {
+            var el = as[i], h = el.getAttribute('href');
+            if (!h || h.charAt(0) === '#' || h.indexOf('mailto:') === 0 || h.indexOf('tel:') === 0) continue;
+            try {
+              var u = new URL(h, location.href);
+              if (u.host !== location.host) continue;
+              if (idx > 0) u.searchParams.set('text', idx); else u.searchParams.delete('text');
+              el.setAttribute('href', u.pathname + u.search + u.hash);
+            } catch (e) {}
+          }
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+          syncLinks();
+          var b = document.getElementById('textsize');
+          if (!b) return;
+          b.setAttribute('aria-pressed', idx > 0 ? 'true' : 'false');
+          b.addEventListener('click', function () {
+            idx = clamp(idx + 1); apply();
+            var u = new URL(location.href);
+            if (idx > 0) u.searchParams.set('text', idx); else u.searchParams.delete('text');
+            history.replaceState(null, '', u.pathname + u.search + u.hash);
+            syncLinks();
+            b.setAttribute('aria-pressed', idx > 0 ? 'true' : 'false');
+          });
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <Header locale={locale} crumbs={crumbs} alt={alt} />
+    {parent && <Back href={parent.href} label={parent.label} />}
+    <main class="container">
+      <slot />
+    </main>
+    <footer class="foot">
+      <div class="container">
+        <nav class="foot__links" aria-label="Information and legal">
+          <a href={href(locale, 'info', 'about')}>{legal.about}</a>
+          <a href={href(locale, 'info', 'privacy')}>{legal.privacy}</a>
+          <a href={href(locale, 'info', 'terms')}>{legal.terms}</a>
+          <a href={href(locale, 'info', 'disclaimer')}>{legal.disclaimer}</a>
+        </nav>
+        <p class="foot__tag">{ui.ui.footer}</p>
+        <p class="foot__legal">{ui.ui.footerLegal}</p>
+      </div>
+    </footer>
+    {isHome && <HomeFx />}
+  </body>
+</html>

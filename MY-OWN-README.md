@@ -1,0 +1,56 @@
+
+# ORIGINAL TASK
+create me a blog website...
+- astro 
+- creates a static html site...
+- all blogs and whatever are just hardcoded...
+    - maybe as markdown? but don't just use any markdown to html thing.. use a logical one that actually works well and is arranged well 
+- all libraries must be super well maintained... lots of github stars... etc.
+- style: minimal, logical, 
+    - Target audience:
+        - People from 20-50.
+        - mainly in uk and us...
+        - mainly women 
+            - but don't just make things pink- think more about what women who aren't in tech want from a website..
+            - I guess like emotional / personable / simplistic / familiarity with slight variance / trustworthyness, etc..
+        - mainly people who didn't go to uni. 
+            - and defo not tech / maths / engineering people..
+        - so design a theme.. or three for me to choose from.. that suits that target audience
+        - to note: i do enjoy the style of the game 'cuphead'
+- Do not add anything at all that will slow down or annoy the user experience
+    - no cookies
+    - no transitions!
+    - etc.
+- In the readme,
+    - make it super basic... literally just a few bullet points.. no bolding or anything as I'm reading as raw markdown.
+    - literally just says how to run. plain simple no fluff.
+    - then anything else that is cricitcal to know... 
+        - like literally 20 words on how add a new blog or whatever..
+- Don't have a wasted landing page...
+    - they should go straight into a page with categories as tiles...
+    - each tile has a picture and a short description.. ensure everything will scale for really long text etc... 
+        - make the text wrap and then elipses..
+- keep the code maintainable for humans...
+- add translations etc.
+    - add translations etc... make all that changeable in the website...
+        - but again, try and keep the whole thing pre-generated where possible!
+        - I want a minimal amount of javascript!
+    - so like <url>/en/... 
+    - or example.com/index-en.html/.. (but it just says example.com...)
+    - or exmaple.com/products.en.html/car (but they just see example.com/products/car
+    - so obviously in html there will be placeholder text...
+        - but then for the blogs which will be just markdown.. just have seperate markdown files...
+        - like blogs/products/car/en.md
+        - like blogs/products/car/es.md
+- should be unique...
+    - again... poening page goes straight to the blogs list 
+- create just one super basic exapmle blog page.
+- pages should be super minimal and load almost instantly
+- minimal website in general
+    - don't waste space with logos or massive headers that do nothing.
+    - it should reinvent, be functional, fast and impressive.
+- make it familira but not boring..
+    - like don't just do that typical burger menu etc... 
+        - add some slight variation to that to make it more interesting..
+    - functionality first.
+- simple, clean, *short!* maintianable code.

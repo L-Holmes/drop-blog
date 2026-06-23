@@ -1,0 +1,61 @@
+---
+// Simple inline line-drawings used as tile pictures. They inherit the
+// current text colour, so they re-tint with the theme automatically.
+// Add a new one here, then reference it by name from src/consts.ts.
+interface Props { name: string; }
+const { name } = Astro.props;
+const stroke = { fill: 'none', stroke: 'currentColor', 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+---
+{name === 'cup' && (
+  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+    <path {...stroke} d="M14 22h30v14a15 15 0 0 1-30 0z" />
+    <path {...stroke} d="M44 25h6a5 5 0 0 1 0 14h-6" />
+    <path {...stroke} d="M22 8c-2 3 2 5 0 8M32 8c-2 3 2 5 0 8" />
+  </svg>
+)}
+{name === 'house' && (
+  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+    <path {...stroke} d="M12 28 32 12l20 16" />
+    <path {...stroke} d="M17 26v24h30V26" />
+    <path {...stroke} d="M27 50V36h10v14" />
+  </svg>
+)}
+{name === 'leaf' && (
+  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+    <path {...stroke} d="M18 46c0-18 14-30 30-30 0 18-12 30-30 30z" />
+    <path {...stroke} d="M22 50C30 38 38 32 46 28" />
+  </svg>
+)}
+{name === 'coin' && (
+  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+    <circle {...stroke} cx="32" cy="32" r="18" />
+    <path {...stroke} d="M32 22v20M27 27h7a4 4 0 0 1 0 8h-4a4 4 0 0 0 0 8h8" />
+  </svg>
+)}
+{name === 'info' && (
+  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+    <circle {...stroke} cx="32" cy="32" r="20" />
+    <path {...stroke} d="M32 29v13" />
+    <circle cx="32" cy="22" r="2.4" fill="currentColor" />
+  </svg>
+)}
+{name === 'shield' && (
+  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+    <path {...stroke} d="M32 10l18 6v14c0 12-8 19-18 24-10-5-18-12-18-24V16z" />
+    <path {...stroke} d="M24 32l6 6 12-12" />
+  </svg>
+)}
+{name === 'scale' && (
+  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+    <path {...stroke} d="M32 12v40M18 52h28" />
+    <path {...stroke} d="M14 22h36M32 14l-18 8M32 14l18 8" />
+    <path {...stroke} d="M8 34a6 6 0 0 0 12 0zM44 34a6 6 0 0 0 12 0z" />
+  </svg>
+)}
+{name === 'doc' && (
+  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+    <path {...stroke} d="M18 10h20l10 10v34H18z" />
+    <path {...stroke} d="M38 10v10h10" />
+    <path {...stroke} d="M25 32h14M25 40h14" />
+  </svg>
+)}

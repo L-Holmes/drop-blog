@@ -1,0 +1,74 @@
+{
+  "site": {
+    "tagline": "Textos sinceros y sin prisa para los días normales."
+  },
+  "ui": {
+    "home": "Inicio",
+    "readMore": "Leer",
+    "noPosts": "Aún no hay nada por aquí. Pronto llegará algo.",
+    "footer": "Hecho por personas que lo van descubriendo justo a tu lado.",
+    "footerLegal": "Información general compartida de buena fe; no es asesoramiento profesional, médico, legal ni financiero. © 2025 Margin Notes.",
+    "learnMore": "Saber más",
+    "why": "Por qué somos diferentes",
+    "infoTitle": "Información y aviso legal",
+    "legal": { "about": "Quiénes somos", "privacy": "Privacidad", "terms": "Términos", "disclaimer": "Aviso legal" },
+    "updated": "Actualizado",
+    "review": {
+      "verdict": "Nuestro veredicto sincero",
+      "tested": "Cómo lo probamos",
+      "cons": "Dónde se queda corto",
+      "weaker": "Dónde otros lo hacen mejor",
+      "missed": "Lo que no probamos",
+      "pros": "Lo que funciona bien",
+      "scoresTitle": "Cómo lo puntuó nuestro equipo",
+      "average": "Media del equipo",
+      "references": "Referencias"
+    }
+  },
+  "categories": {
+    "recipes": {
+      "name": "Recetas",
+      "description": "Comida agradecida para los días normales y para quienes quieres.",
+      "pitchTitle": "¿Qué hace diferentes a nuestras recetas?",
+      "pitch": [
+        "Cocinadas en una cocina real y ajetreada antes de llegarte",
+        "Listas de ingredientes cortas que sí tendrás en casa",
+        "Te decimos si merece la pena fregar después"
+      ],
+      "pitchMore": "Sin ingredientes patrocinados ni métodos de cincuenta pasos: solo comida que funciona un martes cualquiera."
+    },
+    "living": {
+      "name": "Hogar",
+      "description": "Pequeñas formas de hacer tu casa un poco más acogedora.",
+      "pitchTitle": "¿Qué hace diferentes a nuestros consejos de hogar?",
+      "pitch": [
+        "Probados también en casas pequeñas, alquiladas y compartidas",
+        "Primero arreglos baratos, antes de decir que compres",
+        "Sinceros sobre lo que sencillamente no merece tu tiempo"
+      ],
+      "pitchMore": "Solo sugerimos cosas con las que de verdad hemos vivido, no productos que alguien nos pagó por destacar."
+    },
+    "wellbeing": {
+      "name": "Bienestar",
+      "description": "Notas suaves y prácticas sobre descansar, el ánimo y cuidarte.",
+      "pitchTitle": "¿Qué hace diferentes a nuestras notas de bienestar?",
+      "pitch": [
+        "Escritas por personas que también han tenido días difíciles",
+        "Pasos pequeños, nunca un plan de treinta días",
+        "Sin promesas milagrosas, nunca"
+      ],
+      "pitchMore": "Realistas y amables, y nunca un sustituto del apoyo adecuado cuando lo necesites."
+    },
+    "money": {
+      "name": "Dinero",
+      "description": "Ideas claras sobre gastar, ahorrar y preocuparse menos.",
+      "pitchTitle": "¿Qué hace diferentes a nuestras notas de dinero?",
+      "pitch": [
+        "Lenguaje claro, sin jerga y sin venderte nada",
+        "Pensadas para presupuestos reales y desiguales",
+        "Decimos sin rodeos cuando algo no merece la pena"
+      ],
+      "pitchMore": "Solo orientación general: nunca movida por comisiones ni un reemplazo del asesoramiento regulado."
+    }
+  }
+}

@@ -1,0 +1,16 @@
+---
+interface Props { title: string; desc: string; href: string; readLabel: string; emoji?: string; image?: string; }
+const { title, desc, href, readLabel, emoji, image } = Astro.props;
+---
+<li class="card">
+  <a href={href}>
+    {image
+      ? <img class="card__img" src={image} alt="" loading="lazy" />
+      : <span class="card__badge" aria-hidden="true">{emoji ?? '📝'}</span>}
+    <span class="card__text">
+      <span class="card__title">{title}</span>
+      <span class="card__desc">{desc}</span>
+      <span class="card__more">{readLabel} →</span>
+    </span>
+  </a>
+</li>
